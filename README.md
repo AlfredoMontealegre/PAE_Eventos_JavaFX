@@ -1,3 +1,3 @@
 # Integrantes
-Claudio de la Rocha
-Alfredo Montealegre
+- Claudio de la Rocha
+- Alfredo Montealegre
