@@ -1,5 +1,6 @@
 package ni.uam.edu.recepciondecafe;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,11 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import ni.uam.edu.recepciondecafe.DAO.LotecafeDao;
 import ni.uam.edu.recepciondecafe.Modelo.LoteCafe;
 
 public class RecepcionController {
     LotecafeDao loteCafe = new LotecafeDao();
+    private LoteCafe loteEnEdicion = null;
     @FXML private TableView<LoteCafe> tablaLotes;
     @FXML private TableColumn<LoteCafe, String> colNombre;
     @FXML private TableColumn<LoteCafe, Double> colpesoKG;
@@ -41,9 +44,53 @@ public class RecepcionController {
 
     }
     private void editarLoteSeleccionado(){
+        LoteCafe seleccionado = tablaLotes.getSelectionModel().getSelectedItem();
+        if (seleccionado == null){
+            lblMensajeError.setText("Seleccione un lote");
+            return;
+        }
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmar edición");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Está seguro que desea editar su lote: "
+                + seleccionado.getCodigo() + "? Si continua se borrara el registro anterior");
+
+        alerta.showAndWait().ifPresent(respuesta -> {
+            if (respuesta == ButtonType.OK) {
+
+                listaLoteCafe.remove(seleccionado);
+                loteCafe.obtenerLista().remove(seleccionado);
+                txtNombre.setText(seleccionado.getProductor());
+                txtCodigo.setText(seleccionado.getCodigo());
+                txtPesoKG.setText(""+ seleccionado.getPesoKG());
+            }
+        });
+
+
 
     }
     private void eliminarLoteSeleccionado(){
+        LoteCafe seleccionado = tablaLotes.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null){
+            lblMensajeError.setText("Seleccione un lote");
+            return;
+        }
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmar eliminación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Está seguro que desea eliminar el lote con código: " + seleccionado.getCodigo() + "?");
+
+        alerta.showAndWait().ifPresent(respuesta -> {
+            if (respuesta == ButtonType.OK) {
+
+                listaLoteCafe.remove(seleccionado);
+                loteCafe.obtenerLista().remove(seleccionado);
+
+                lblMensajeError.setText("Lote eliminado correctamente.");
+                temporizador();
+            }
+        });
 
     }
     private void prepararTable(){
@@ -58,7 +105,7 @@ public class RecepcionController {
 
     private void agregarDatos(){
         leerDatos();
-        listaLoteCafe.addAll(loteCafe.obtenerLista());
+
     }
 
     private void leerDatos(){
@@ -77,9 +124,23 @@ public class RecepcionController {
         String nombre = txtNombre.getText();
         String codigo = txtCodigo.getText();
         double pesoKG = Double.parseDouble(txtPesoKG.getText());
-        loteCafe.agregar(new LoteCafe(nombre, codigo,pesoKG));
+
+        if (loteEnEdicion == null){
+            loteCafe.agregar(new LoteCafe(nombre, codigo,pesoKG));
+            listaLoteCafe.addAll(loteCafe.obtenerLista());
+        }
+        else {
+            loteEnEdicion.setProductor(nombre);
+            loteEnEdicion.setCodigo(codigo);
+            loteEnEdicion.setPesoKG(pesoKG);
+
+            tablaLotes.refresh();
+            lblMensajeError.setText("Lote actualizado.");
+            temporizador();
+            loteEnEdicion = null;
+        }
         cleanView();
-        probar();
+
     }
 
     private boolean validarTexto(TextField campo) {
@@ -103,9 +164,10 @@ public class RecepcionController {
         txtPesoKG.clear();
     }
 
-    private void probar(){
-        lblMensajeError.setText("" + loteCafe.obtenerLista().size());
-
+    private void temporizador(){
+        PauseTransition temporizador = new PauseTransition(Duration.seconds(3));
+        temporizador.setOnFinished(evento -> lblMensajeError.setText(""));
+        temporizador.play();
     }
 
 }
