@@ -17,34 +17,52 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
-            <TextField fx:id="txtNombre" maxWidth="170.0" promptText="Claudio" style="-fx-background-color: #047857;" />
+            <TextField fx:id="txtNombre" maxWidth="170.0" promptText="Claudio" style="-fx-background-color: #047857;">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Label text="Codigo del lote" textFill="#ecfdf5">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
-            <TextField fx:id="txtCodigo" maxWidth="170.0" promptText="C1" style="-fx-background-color: #047857;" />
+            <TextField fx:id="txtCodigo" maxWidth="170.0" promptText="C1" style="-fx-background-color: #047857;">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Label text="Peso en kilogramos" textFill="#ecfdf5">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Label>
-            <TextField fx:id="txtPesoKG" maxWidth="170.0" promptText="12.4" style="-fx-background-color: #047857;" />
+            <TextField fx:id="txtPesoKG" maxWidth="170.0" promptText="12.4" style="-fx-background-color: #047857;">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font></TextField>
             <Label fx:id="lblMensajeError" textFill="RED">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#ButtonGuardar" style="-fx-background-color: #F59E0B;" text="Agregar">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#ButtonGuardar" style="-fx-background-color: #F59E0B;" text="Agregar">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" style="-fx-background-color: #F59E0B;" text="Actualizar">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <TableView fx:id="tablaLotes" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #D1FAE5;">
+      <TableView fx:id="tablaLotes" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #D1FAE5;" styleClass="-fx-text-fill: black">
         <columns>
-          <TableColumn fx:id="colNombre" prefWidth="100.0" text="Nombre" />
-          <TableColumn fx:id="colCodigo" prefWidth="100.0" text="Codigo" />
-            <TableColumn fx:id="colpesoKG" prefWidth="100.0" text="PesoKG" />
+          <TableColumn fx:id="colNombre" prefWidth="100.0" style="-fx-background-color: #D1FAE5; -fx-text-fill: black;" styleClass="-fx-text-fill: black" text="Nombre" />
+          <TableColumn fx:id="colCodigo" prefWidth="100.0" style="-fx-background-color: #D1FAE5; -fx-text-fill: black;" styleClass="-fx-text-fill: black" text="Codigo" />
+            <TableColumn fx:id="colpesoKG" prefWidth="100.0" style="-fx-background-color: #D1FAE5; -fx-text-fill: black;" styleClass="-fx-text-fill: black" text="PesoKG" />
         </columns>
       </TableView>
    </children>

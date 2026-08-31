@@ -53,20 +53,18 @@ public class RecepcionController {
         alerta.setTitle("Confirmar edición");
         alerta.setHeaderText(null);
         alerta.setContentText("¿Está seguro que desea editar su lote: "
-                + seleccionado.getCodigo() + "? Si continua se borrara el registro anterior");
+                + seleccionado.getCodigo() + "?");
 
         alerta.showAndWait().ifPresent(respuesta -> {
             if (respuesta == ButtonType.OK) {
 
-                listaLoteCafe.remove(seleccionado);
-                loteCafe.obtenerLista().remove(seleccionado);
                 txtNombre.setText(seleccionado.getProductor());
                 txtCodigo.setText(seleccionado.getCodigo());
                 txtPesoKG.setText(""+ seleccionado.getPesoKG());
+
+                actualizarLote(seleccionado);
             }
         });
-
-
 
     }
     private void eliminarLoteSeleccionado(){
@@ -111,14 +109,17 @@ public class RecepcionController {
     private void leerDatos(){
         if(!validarTexto(txtNombre)){
             lblMensajeError.setText("Ingrese su nombre");
+            temporizador();
             return;
         }
         if (!validarTexto(txtCodigo)){
             lblMensajeError.setText("Ingrese un codigo válido");
+            temporizador();
             return;
         }
         if (!validarDecimal(txtPesoKG)){
             lblMensajeError.setText("Ingrese un peso válido");
+            temporizador();
             return;
         }
         String nombre = txtNombre.getText();
@@ -162,12 +163,18 @@ public class RecepcionController {
         txtNombre.clear();
         txtCodigo.clear();
         txtPesoKG.clear();
+        lblMensajeError.setText("");
     }
 
     private void temporizador(){
-        PauseTransition temporizador = new PauseTransition(Duration.seconds(3));
+        PauseTransition temporizador = new PauseTransition(Duration.seconds(2));
         temporizador.setOnFinished(evento -> lblMensajeError.setText(""));
         temporizador.play();
+    }
+
+    @FXML private void actualizarLote(LoteCafe loteBorrar){
+        listaLoteCafe.remove(loteBorrar);
+        agregarDatos();
     }
 
 }
