@@ -57,12 +57,10 @@ public class RecepcionController {
 
         alerta.showAndWait().ifPresent(respuesta -> {
             if (respuesta == ButtonType.OK) {
-
                 txtNombre.setText(seleccionado.getProductor());
                 txtCodigo.setText(seleccionado.getCodigo());
                 txtPesoKG.setText(""+ seleccionado.getPesoKG());
-
-                actualizarLote(seleccionado);
+                loteEnEdicion = seleccionado;
             }
         });
 
@@ -103,7 +101,32 @@ public class RecepcionController {
 
     private void agregarDatos(){
         leerDatos();
+    }
 
+    @FXML
+    protected void BtnactualizarLote() {
+
+        if (loteEnEdicion == null) {
+            lblMensajeError.setText("Seleccione un lote desde la tabla para editar.");
+            temporizador();
+            return;
+        }
+
+        if (!validarTexto(txtNombre)) { lblMensajeError.setText("Ingrese su nombre"); temporizador(); return; }
+        if (!validarTexto(txtCodigo)) { lblMensajeError.setText("Ingrese un codigo válido"); temporizador(); return; }
+        if (!validarDecimal(txtPesoKG)) { lblMensajeError.setText("Ingrese un peso válido"); temporizador(); return; }
+
+        loteEnEdicion.setProductor(txtNombre.getText());
+        loteEnEdicion.setCodigo(txtCodigo.getText());
+        loteEnEdicion.setPesoKG(Double.parseDouble(txtPesoKG.getText()));
+
+        tablaLotes.refresh();
+
+        lblMensajeError.setText("Lote actualizado correctamente.");
+        temporizador();
+
+        loteEnEdicion = null;
+        cleanView();
     }
 
     private void leerDatos(){
@@ -122,26 +145,17 @@ public class RecepcionController {
             temporizador();
             return;
         }
+
         String nombre = txtNombre.getText();
         String codigo = txtCodigo.getText();
         double pesoKG = Double.parseDouble(txtPesoKG.getText());
 
-        if (loteEnEdicion == null){
-            loteCafe.agregar(new LoteCafe(nombre, codigo,pesoKG));
-            listaLoteCafe.addAll(loteCafe.obtenerLista());
-        }
-        else {
-            loteEnEdicion.setProductor(nombre);
-            loteEnEdicion.setCodigo(codigo);
-            loteEnEdicion.setPesoKG(pesoKG);
-
-            tablaLotes.refresh();
-            lblMensajeError.setText("Lote actualizado.");
-            temporizador();
-            loteEnEdicion = null;
-        }
+        LoteCafe nuevoLote = new LoteCafe(nombre, codigo, pesoKG);
+        loteCafe.agregar(nuevoLote);
+        listaLoteCafe.add(nuevoLote);
+        lblMensajeError.setText("Lote guardado.");
+        temporizador();
         cleanView();
-
     }
 
     private boolean validarTexto(TextField campo) {
@@ -165,16 +179,9 @@ public class RecepcionController {
         txtPesoKG.clear();
         lblMensajeError.setText("");
     }
-
     private void temporizador(){
         PauseTransition temporizador = new PauseTransition(Duration.seconds(2));
         temporizador.setOnFinished(evento -> lblMensajeError.setText(""));
         temporizador.play();
     }
-
-    @FXML private void actualizarLote(LoteCafe loteBorrar){
-        listaLoteCafe.remove(loteBorrar);
-        agregarDatos();
-    }
-
 }
