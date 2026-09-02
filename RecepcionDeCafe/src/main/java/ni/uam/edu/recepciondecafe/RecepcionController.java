@@ -53,13 +53,13 @@ public class RecepcionController {
         alerta.setTitle("Confirmar edición");
         alerta.setHeaderText(null);
         alerta.setContentText("¿Está seguro que desea editar su lote: "
-                + seleccionado.getCodigo() + "?");
+                + seleccionado.getCodigoLote() + "?");
 
         alerta.showAndWait().ifPresent(respuesta -> {
             if (respuesta == ButtonType.OK) {
-                txtNombre.setText(seleccionado.getProductor());
-                txtCodigo.setText(seleccionado.getCodigo());
-                txtPesoKG.setText(""+ seleccionado.getPesoKG());
+                txtNombre.setText(seleccionado.getProductorLote());
+                txtCodigo.setText(seleccionado.getCodigoLote());
+                txtPesoKG.setText(""+ seleccionado.getPesoKgLote());
                 loteEnEdicion = seleccionado;
             }
         });
@@ -75,7 +75,7 @@ public class RecepcionController {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmar eliminación");
         alerta.setHeaderText(null);
-        alerta.setContentText("¿Está seguro que desea eliminar el lote con código: " + seleccionado.getCodigo() + "?");
+        alerta.setContentText("¿Está seguro que desea eliminar el lote con código: " + seleccionado.getCodigoLote() + "?");
 
         alerta.showAndWait().ifPresent(respuesta -> {
             if (respuesta == ButtonType.OK) {
@@ -91,11 +91,11 @@ public class RecepcionController {
     }
     private void prepararTable(){
      colNombre.setCellValueFactory(
-             fila -> new SimpleStringProperty(fila.getValue().getProductor()));
+             fila -> new SimpleStringProperty(fila.getValue().getProductorLote()));
      colCodigo.setCellValueFactory(
-             fila -> new SimpleStringProperty(fila.getValue().getCodigo()));
+             fila -> new SimpleStringProperty(fila.getValue().getCodigoLote()));
         colpesoKG.setCellValueFactory(
-                fila -> new SimpleDoubleProperty(fila.getValue().getPesoKG()).asObject());
+                fila -> new SimpleDoubleProperty(fila.getValue().getPesoKgLote()).asObject());
      tablaLotes.setItems(listaLoteCafe);
     }
 
@@ -116,9 +116,9 @@ public class RecepcionController {
         if (!validarTexto(txtCodigo)) { lblMensajeError.setText("Ingrese un codigo válido"); temporizador(); return; }
         if (!validarDecimal(txtPesoKG)) { lblMensajeError.setText("Ingrese un peso válido"); temporizador(); return; }
 
-        loteEnEdicion.setProductor(txtNombre.getText());
-        loteEnEdicion.setCodigo(txtCodigo.getText());
-        loteEnEdicion.setPesoKG(Double.parseDouble(txtPesoKG.getText()));
+        loteEnEdicion.setProductorLote(txtNombre.getText());
+        loteEnEdicion.setCodigoLote(txtCodigo.getText());
+        loteEnEdicion.setPesoKgLote(Double.parseDouble(txtPesoKG.getText()));
 
         tablaLotes.refresh();
 

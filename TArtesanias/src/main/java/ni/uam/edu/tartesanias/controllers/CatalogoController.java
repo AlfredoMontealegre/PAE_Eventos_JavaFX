@@ -175,7 +175,6 @@ public class CatalogoController {
         );
     }
 
-
     @FXML
     protected void ayudaOnClick() {
 

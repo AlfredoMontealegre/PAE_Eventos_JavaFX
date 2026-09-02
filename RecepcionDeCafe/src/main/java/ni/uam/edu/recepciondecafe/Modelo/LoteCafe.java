@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoteCafe {
-    private String productor;
-    private String codigo;
-    private double pesoKG;
+    private String productorLote;
+    private String codigoLote;
+    private double pesoKgLote;
 }

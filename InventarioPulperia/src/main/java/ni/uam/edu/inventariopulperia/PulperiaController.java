@@ -119,8 +119,8 @@ public class PulperiaController {
         }
         String codigoBuscado = campo.getText().trim();
         for (Producto producto : listaProducto.obtenerProducto()) {
-            if (producto.getCodigo().equalsIgnoreCase(codigoBuscado)) {
-                lblRespuestaBuscar.setText("Producto encontrado: " + producto.getNombre());
+            if (producto.getCodigoProducto().equalsIgnoreCase(codigoBuscado)) {
+                lblRespuestaBuscar.setText("Producto encontrado: " + producto.getNombreProducto());
                 txtBuscar.clear();
                 return true;
             }

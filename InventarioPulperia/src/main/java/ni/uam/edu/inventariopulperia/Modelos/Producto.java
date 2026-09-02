@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Producto {
-    private String Nombre;
-    private String codigo;
-    private double precio;
-    private int cantidad;
+    private String nombreProducto;
+    private String codigoProducto;
+    private double precioProducto;
+    private int cantidadProducto;
 }
