@@ -52,27 +52,33 @@ public class PulperiaController {
     private void buscarCodigo() {
         if (!validarTexto(txtBuscar)) {
             lblRespuestaBuscar.setText("Ingrese un código válido");
+            temporizador();
             return;
         }
         if (!validarExistencia(txtBuscar)) {
             lblRespuestaBuscar.setText("No se encontró el producto");
+            temporizador();
         }
     }
     private void leerDatos(){
         if(!validarTexto(txtNombre)){
             lblMensajeError.setText("Ingrese el nombre");
-            return;
-        }
-        if(!validarTexto(txtCodigo)){
-            lblMensajeError.setText("Ingrese el codigo");
-            return;
-        }
-        if(!validarEntero(txtCantidad)){
-            lblMensajeError.setText("Ingrese una cantidad válida");
+            temporizador();
             return;
         }
         if (!validarDecimal(txtPrecio)){
             lblMensajeError.setText("Ingrese un precio válido");
+            temporizador();
+            return;
+        }
+        if(!validarTexto(txtCodigo)){
+            lblMensajeError.setText("Ingrese el codigo");
+            temporizador();
+            return;
+        }
+        if(!validarEntero(txtCantidad)){
+            lblMensajeError.setText("Ingrese una cantidad válida");
+            temporizador();
             return;
         }
 
@@ -82,6 +88,8 @@ public class PulperiaController {
         int cantidad = Integer.parseInt(txtCantidad.getText());
         listaProducto.agregar(new Producto(nombre, codigo, precio, cantidad));
         cleanView();
+        lblMensajeError.setText("Agregado correctamente");
+        temporizador();
     }
     private void cleanView(){
         txtNombre.clear();
@@ -104,6 +112,7 @@ public class PulperiaController {
             return false;
         }
     }
+
     private boolean validarDecimal(TextField campo){
         try{
             double numero = Double.parseDouble(campo.getText().trim());
@@ -112,6 +121,7 @@ public class PulperiaController {
             return false;
         }
     }
+    
     private boolean validarExistencia(TextField campo) {
         if (listaProducto.obtenerProducto().isEmpty()) {
             lblRespuestaBuscar.setText("La lista está vacía");
@@ -127,5 +137,9 @@ public class PulperiaController {
         }
         return false;
     }
-
+    private void temporizador(){
+        PauseTransition temporizador = new PauseTransition(Duration.seconds(2));
+        temporizador.setOnFinished(evento -> lblMensajeError.setText(""));
+        temporizador.play();
+    }
 }
