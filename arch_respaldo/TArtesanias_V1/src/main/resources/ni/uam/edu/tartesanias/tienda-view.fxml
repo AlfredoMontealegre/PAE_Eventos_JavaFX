@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: F7F0DC;"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ni.uam.edu.tartesanias.controllers.CatalogoController">
+
+   <children>
+
+      <!-- ========================= -->
+      <!-- TITULO -->
+      <!-- ========================= -->
+
+      <Label text="Artesanías Güegüenses">
+         <font>
+            <Font name="Bodoni MT Condensed Bold" size="37.0" />
+         </font>
+
+         <VBox.margin>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="15.0" />
+         </VBox.margin>
+      </Label>
+
+
+      <!-- ========================= -->
+      <!-- MENU -->
+      <!-- ========================= -->
+
+      <MenuBar style="-fx-background-color: F7F0DC; -fx-border-color: BFB69B;">
+
+         <menus>
+
+            <Menu text="Catálogo">
+               <items>
+
+                  <MenuItem onAction="#nuevoOnClick" text="Nuevo" />
+
+                  <MenuItem onAction="#guardarOnClick" text="Guardar" />
+
+               </items>
+            </Menu>
+
+
+            <Menu text="Ventas">
+
+               <items>
+
+                  <MenuItem onAction="#ventasOnClick" text="Ver ventas" />
+
+               </items>
+
+            </Menu>
+
+
+            <Menu text="Ayuda">
+
+               <items>
+
+                  <MenuItem onAction="#ayudaOnClick" text="Acerca de" />
+
+               </items>
+
+            </Menu>
+
+         </menus>
+
+      </MenuBar>
+
+
+      <!-- ========================= -->
+      <!-- TOOLBAR -->
+      <!-- ========================= -->
+
+      <ToolBar style="-fx-border-color: BFB69B;">
+
+         <items>
+
+            <Button onAction="#nuevoOnClick" text="Nuevo" />
+
+            <Button onAction="#guardarOnClick" text="Guardar" />
+
+            <Separator orientation="VERTICAL" />
+
+            <TextField fx:id="txtNombre" promptText="Buscar producto" />
+
+            <Button onAction="#buscarOnClick" text="Buscar" />
+
+         </items>
+
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+
+      </ToolBar>
+
+
+      <!-- ========================= -->
+      <!-- FORMULARIO -->
+      <!-- ========================= -->
+
+      <HBox spacing="20.0">
+
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </padding>
+
+
+         <!-- DATOS DEL PRODUCTO -->
+
+         <VBox prefWidth="350.0" spacing="10.0">
+
+            <Label text="Datos del producto">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="19.0" />
+               </font>
+            </Label>
+
+
+            <Label text="Nombre" />
+
+            <TextField fx:id="txtNombre" promptText="Nombre del producto" />
+
+
+            <Label text="Categoría" />
+
+            <TextField fx:id="txtCategoria" promptText="Ej. Cerámica" />
+
+
+            <Label text="Precio" />
+
+            <TextField fx:id="txtPrecio" promptText="Ej. 250.00" />
+
+
+            <Button onAction="#seleccionarImagenOnClick" text="Seleccionar imagen" />
+
+            <Label fx:id="lblImagen" text="No se ha seleccionado una imagen" />
+
+         </VBox>
+
+
+         <!-- VISTA DE IMAGEN -->
+
+         <VBox alignment="CENTER" prefWidth="250.0" spacing="10.0" style="-fx-border-color: BFB69B;">
+
+            <Label text="Imagen del producto">
+               <font>
+                  <Font name="Bodoni MT Condensed Bold" size="16.0" />
+               </font>
+            </Label>
+
+
+            <ImageView fx:id="imgProducto" fitHeight="180.0" fitWidth="220.0" preserveRatio="true" />
+
+         </VBox>
+
+      </HBox>
+
+
+      <!-- ========================= -->
+      <!-- TABLA -->
+      <!-- ========================= -->
+
+      <TableView fx:id="tblProductos" VBox.vgrow="ALWAYS">
+
+         <columns>
+
+            <TableColumn fx:id="colNombre" prefWidth="180.0" text="Nombre" />
+
+            <TableColumn fx:id="colCategoria" prefWidth="150.0" text="Categoría" />
+
+            <TableColumn fx:id="colPrecio" prefWidth="100.0" text="Precio" />
+
+            <TableColumn fx:id="colImagen" prefWidth="150.0" text="Imagen" />
+
+         </columns>
+
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+         </VBox.margin>
+
+      </TableView>
+
+   </children>
+
+</VBox>
